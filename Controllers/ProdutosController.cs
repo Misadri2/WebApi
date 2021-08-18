@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Data;
@@ -23,8 +24,17 @@ namespace WebApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Produto>> Get()
         {
-            return _context.Produtos.AsNoTracking().ToList();
+        try        
+        { 
+             return _context.Produtos.AsNoTracking().ToList();
         }
+        catch (System.Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                "Erro ao tentar obter a lista de Produtos");
+            }
+         }          
+        
 
         [HttpGet("{id}", Name = "Obter Produto")]
         public ActionResult<Produto> GetId(int id)
@@ -45,6 +55,7 @@ namespace WebApi.Controllers
             } */
             _context.Produtos.Add(produto);
             _context.SaveChanges();
+                
             return new CreatedAtRouteResult("Obter Produto",
             new { id = produto.ProdutoId }, produto);
         }

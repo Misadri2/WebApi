@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApi.Data;
+using WebApi.Services;
 
 namespace WebApi
 {
@@ -27,6 +28,9 @@ namespace WebApi
         {
             services.AddDbContext<ApplicationDbContext>(options => 
             options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+
+            //código para funcionar a pasta Service
+            services.AddTransient<IMeuServico, MeuServico>();
 
             //código para funcionar dados relacionados em tabela
             services.AddControllers()

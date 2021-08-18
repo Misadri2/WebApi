@@ -3,8 +3,10 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using WebApi.Data;
 using WebApi.Models;
+using WebApi.Services;
 
 namespace WebApi.Controllers
 {
@@ -13,10 +15,19 @@ namespace WebApi.Controllers
     public class CategoriasController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-
-        public CategoriasController(ApplicationDbContext context)
+        private readonly IConfiguration _configuration;
+        public CategoriasController(ApplicationDbContext contexto, 
+            IConfiguration config)
         {
-            _context = context;
+            _context = contexto;
+            _configuration = config;
+        }
+
+        [HttpGet("saudacao/{nome}")]
+        public ActionResult<string> GetSaudacao([FromServices] IMeuServico meuservico,
+           string nome)
+        {
+            return meuservico.Saudacao(nome);
         }
 
         [HttpGet]

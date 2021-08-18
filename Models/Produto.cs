@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebApi.Validations;
 
 namespace WebApi.Models
 {
@@ -13,7 +14,7 @@ namespace WebApi.Models
         [Required(ErrorMessage = "O nome é obrigatório")]
         [StringLength(80, ErrorMessage = "O nome deve ter no máximo {1} e no mínimo {2} caracteres",
             MinimumLength = 5)]
-        //[PrimeiraLetraMaiuscula]
+        [PrimeiraLetraMaiuscula]
         public string Nome { get; set; }
 
         [Required]
